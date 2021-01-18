@@ -1,7 +1,5 @@
 package fr;
 
-import java.util.Scanner;
-
 import fr.monde.Monde;
 import fr.personnage.Personnage;
 
@@ -17,6 +15,8 @@ public class Run {
 
 		
 		//Monde.afficherInformations();
+		
+		Monde.creationClasse();
 		
 		Monde.genese();
 		

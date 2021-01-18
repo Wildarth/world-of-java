@@ -24,6 +24,7 @@ public class Monde {
 
 	private static List<Personnage> personnages = new ArrayList<>();
 	private static List<Monstre> monstres = new ArrayList<>();
+	private static List<Attaque> attaques = new ArrayList<>();
 
 	private static Random random = new Random();
 
@@ -58,7 +59,7 @@ public class Monde {
 			break;
 
 		case 2:
-			CombatGroupe(Tool.demanderInt("Quelle taille pour le groupe de personnage ?"),
+			combatGroupe(Tool.demanderInt("Quelle taille pour le groupe de personnage ?"),
 					Tool.demanderInt("Quelle taille pour le groupe de monstre ?"));
 			break;
 
@@ -90,7 +91,7 @@ public class Monde {
 	 * @param tailleGroupePersonnage
 	 * @param tailleGroupeMonstre
 	 */
-	public static void CombatGroupe(int tailleGroupePersonnage, int tailleGroupeMonstre) {
+	public static void combatGroupe(int tailleGroupePersonnage, int tailleGroupeMonstre) {
 		Groupe personnages = new Groupe();
 		Groupe monstres = new Groupe();
 
@@ -105,6 +106,11 @@ public class Monde {
 		combat(personnages, monstres);
 	}
 
+	/**
+	 * Lance un combat entre un personnage et un groupe de monstres.
+	 * 
+	 * @param tailleGroupeMonstre
+	 */
 	public static void combatSolo(int tailleGroupeMonstre) {
 		Groupe monstres = new Groupe();
 
@@ -119,8 +125,21 @@ public class Monde {
 	 * Initialise le monde.
 	 */
 	public static void initialiseMonde() {
+		creerAttaques();
 		creerClasses();
-		creerMonstres(5);
+		creerMonstres(5);	
+	}
+
+	private static void creerAttaques() {
+		attaques.add(new BasicAttaque("Boule de feu", 15, "Une petite boule de feu, forte chance de touché.", 90.0));
+		attaques.add(new BasicAttaque("Grosse boule de glace", 30,
+				"Une grosse boule de glace, chance moyenne de touché.", 50.0));
+		attaques.add(new BasicAttaque("Coup d'épée", 10, "Un simple coup d'épée, très forte chance de touché.", 95.0));
+		attaques.add(
+				new BasicAttaque("Lancer de hache", 35, "Lance une petite hachette, faible chance de touché.", 25.0));
+		attaques.add(new BasicAttaque("Coup de dague", 8, "Un simple coup de dague, ne rate jamais.", 100.0));
+		attaques.add(
+				new BasicAttaque("Lancer de couteau", 25, "Lance un petit couteau, chance de touché élevé.", 80.0));
 	}
 
 	private static void creerMonstres(int nombreMonstre) {
@@ -136,27 +155,24 @@ public class Monde {
 	}
 
 	private static void creerMage() {
-		List<Attaque> attaques = new ArrayList<>();
-		attaques.add(new BasicAttaque("Boule de feu", 15, "Une petite boule de feu, forte chance de touché.", 90.0));
-		attaques.add(new BasicAttaque("Grosse boule de glace", 30,
-				"Une grosse boule de glace, chance moyenne de touché.", 50.0));
-		dictionnaire.put("Mage", new Classe("Mage", attaques));
+		List<Attaque> listAttaques = new ArrayList<>();
+		listAttaques.add(attaques.get(0));
+		listAttaques.add(attaques.get(1));
+		dictionnaire.put("Mage", new Classe("Mage", listAttaques));
 	}
 
 	private static void creerGuerrier() {
-		List<Attaque> attaques = new ArrayList<>();
-		attaques.add(new BasicAttaque("Coup d'épée", 10, "Un simple coup d'épée, très forte chance de touché.", 95.0));
-		attaques.add(
-				new BasicAttaque("Lancer de hache", 35, "Lance une petite hachette, faible chance de touché.", 25.0));
-		dictionnaire.put("Guerrier", new Classe("Guerrier", attaques));
+		List<Attaque> listAttaques = new ArrayList<>();
+		listAttaques.add(attaques.get(2));
+		listAttaques.add(attaques.get(3));
+		dictionnaire.put("Guerrier", new Classe("Guerrier", listAttaques));
 	}
 
 	private static void creerVoleur() {
-		List<Attaque> attaques = new ArrayList<>();
-		attaques.add(new BasicAttaque("Coup de dague", 8, "Un simple coup de dague, ne rate jamais.", 100.0));
-		attaques.add(
-				new BasicAttaque("Lancer de couteau", 25, "Lance un petit couteau, chance de touché élevé.", 80.0));
-		dictionnaire.put("Voleur", new Classe("Voleur", attaques));
+		List<Attaque> listAttaques = new ArrayList<>();
+		listAttaques.add(attaques.get(4));
+		listAttaques.add(attaques.get(5));
+		dictionnaire.put("Voleur", new Classe("Voleur", listAttaques));
 	}
 
 	/**
@@ -217,7 +233,7 @@ public class Monde {
 	}
 
 	/**
-	 * affiche toutes les infos concernant le monde (personnage)
+	 * affiche toutes les infos concernant le monde (monstre et classe)
 	 */
 	public static void afficherInformations() {
 		// afficherInformationsPersonnages();
@@ -226,6 +242,9 @@ public class Monde {
 		afficherInformationClasse();
 	}
 
+	/**
+	 * Affiche toutes les infos concernant les classes.
+	 */
 	private static void afficherInformationClasse() {
 		System.out.println("Dans le monde il existe " + dictionnaire.size() + " classes, qui sont :");
 		for (String classe : dictionnaire.keySet()) {
@@ -233,13 +252,15 @@ public class Monde {
 		}
 	}
 
+	/**
+	 * Affiche toutes les infos concernant les monstres.
+	 */
 	private static void afficherInformationMonstres() {
 		System.out.println("Dans le monde il existe " + monstres.size() + " monstres, qui sont :");
 		for (Monstre monstre : monstres) {
 			System.out.println(monstre);
 		}
 	}
-
 
 	/**
 	 * Fait combattre un personnage contre un monstre.
@@ -349,5 +370,37 @@ public class Monde {
 			groupe.addCombattant(personnageFactory());
 		}
 		return groupe;
+	}
+
+	/**
+	 * Crée une classe
+	 * @return la classe créé
+	 */
+	public static Classe creationClasse() {
+		String nom = Tool.demanderString("Donner un nom à la classe :");
+		
+		Classe classe = new Classe(nom, genererListAttaque());
+		
+		dictionnaire.put(nom, classe);
+		
+		return classe;
+	}
+
+	private static List<Attaque> genererListAttaque() {
+		
+		List<Attaque> listAttaques = new ArrayList<>();
+		
+		for (int i = 0; i < 2; i++) {
+			listAttaques.add(selectionnerAttaque());
+		}
+		
+		return listAttaques;
+	}
+
+	private static Attaque selectionnerAttaque() {
+		System.out.println("1. " + attaques.get(random.nextInt(attaques.size())));
+		System.out.println("2. " + attaques.get(random.nextInt(attaques.size())));
+		
+		return attaques.get(Tool.demanderInt("Quelle compétence ajouter ?"));
 	}
 }
