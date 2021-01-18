@@ -12,6 +12,7 @@ import fr.classe.Classe;
 import fr.personnage.Combattant;
 import fr.personnage.Monstre;
 import fr.personnage.Personnage;
+import fr.personnage.groupe.Groupe;
 import fr.utilitaire.Tool;
 
 public class Monde {
@@ -35,6 +36,13 @@ public class Monde {
 	 */
 	public static void initialiseMonde() {
 		creerClasses();
+		creerMonstres(5);
+	}
+
+	private static void creerMonstres(int nombreMonstre) {
+		for (int i = 0; i < nombreMonstre; i++) {
+			monstres.add(monstreFactory());
+		}
 	}
 
 	private static void creerClasses() {
@@ -154,6 +162,15 @@ public class Monde {
 			}
 		}
 		
+		quiGagne(personnage, monstre);
+	}
+
+	/**
+	 * Affiche le gagant du combat
+	 * @param personnage
+	 * @param monstre
+	 */
+	private static void quiGagne(Combattant personnage, Combattant monstre) {
 		if(stillAlive(personnage)) {
 			System.out.println("\nVictoire !!!");
 			afficherDefaite(personnage, monstre);
@@ -199,5 +216,31 @@ public class Monde {
 	 */
 	public static Classe getClasse(String nom) {
 		return dictionnaire.get(nom);
+	}
+	
+	/**
+	 * Créer un groupe de monstre sélectionné aléatoirement de la taille donné en paramètre.
+	 * @param nombreMonstre Le nombre de monstre dans le groupe.
+	 * @return La groupe de monstre généré.
+	 */
+	public Groupe creationGroupeMonstre(int nombreMonstre) {
+		Groupe groupe = new Groupe();
+		for (int i = 0; i < nombreMonstre; i++) {
+			groupe.addCombattant(monstres.get(random.nextInt(monstres.size())));
+		}
+		return groupe;
+	}
+	
+	/**
+	 * Créer un groupe de personnage de la taille donné en paramètre, le joueur créé chacun des personnages.
+	 * @param nombrePersonnage
+	 * @return La groupe de personnage créé.
+	 */
+	public Groupe creationGroupePersonnage(int nombrePersonnage) {
+		Groupe groupe = new Groupe();
+		for (int i = 0; i < nombrePersonnage; i++) {
+			groupe.addCombattant(personnageFactory());
+		}
+		return groupe;
 	}
 }
