@@ -38,7 +38,6 @@ public abstract class AbstractCombattant implements Combattant {
 
 	public void attaquer(Combattant adversaire) {
 		System.out.println(this.nom + " attaque " + adversaire.getNom());
-		adversaire.defendre(this.degat);
 		
 		System.out.println(adversaire.getNom() + " : " + adversaire.getPointDeVie() + " -(" + this.getDegat() + ") -> "
 				+ (adversaire.defendre(this.degat)));

@@ -13,6 +13,16 @@ public class BasicAttaque implements Attaque{
 	
 	Random random = new Random();
 
+	
+	
+	public BasicAttaque(String nom, int degat, String description, double chanceToucher) {
+		super();
+		this.nom = nom;
+		this.degat = degat;
+		this.description = description;
+		this.chanceToucher = chanceToucher;
+	}
+
 	@Override
 	public String getNom() {
 		return this.nom;
@@ -57,8 +67,10 @@ public class BasicAttaque implements Attaque{
 	@Override
 	public int lancerAttaque(Combattant lanceur, Combattant cible) {
 		if((random.nextDouble() * 100) < this.getChanceToucher()) {
-			return lanceur.getDegat();
+			System.out.println("REUSSITE - l'attaque " + this.nom +" a réussi !");
+			return this.getDegat();
 		} else {
+			System.out.println("ECHEC - l'attaque " + this.nom +" a échoué !");
 			return 0;
 		}
 	}

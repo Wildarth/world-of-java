@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import fr.attaque.Attaque;
+import fr.attaque.BasicAttaque;
+import fr.classe.Classe;
 import fr.personnage.Combattant;
 import fr.personnage.Monstre;
 import fr.personnage.Personnage;
@@ -34,7 +37,12 @@ public class Monde {
 
 		String nom = Tool.demanderString("Entrer le nom de votre personnage :");
 
-		Personnage personnage = new Personnage(nom, 50, 5);
+		List<Attaque> attaques = new ArrayList<>();
+		attaques.add(new BasicAttaque("Boule de feu", 15, "Une petite boule de feu, forte chance de touché.", 90.0));
+		attaques.add(new BasicAttaque("Grosse boule de glace", 30, "Une grosse boule de glace, chance moyenne de touché.", 50.0));
+		Classe mage = new Classe("Mage", attaques);
+		
+		Personnage personnage = new Personnage(nom, 50, 5, mage);
 
 		personnages.add(personnage);
 
