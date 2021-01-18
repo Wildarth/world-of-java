@@ -1,19 +1,18 @@
 package fr.personnage;
 
-public abstract class AbstractCombattant {
-	
-	public String nom;
-    public int pointDeVie;
-    public int degat;
+public abstract class AbstractCombattant implements Combattant {
 
-    public AbstractCombattant(String nom, int pointDeVie, int degat) {
-    	this.pointDeVie = pointDeVie;
+	private String nom;
+	private int pointDeVie;
+	private int degat;
+
+	protected AbstractCombattant(String nom, int pointDeVie, int degat) {
+		this.pointDeVie = pointDeVie;
 		this.degat = degat;
 		this.nom = nom;
 	}
-    
-    
-    public int getPointDeVie() {
+
+	public int getPointDeVie() {
 		return pointDeVie;
 	}
 
@@ -36,10 +35,22 @@ public abstract class AbstractCombattant {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-    
-    public String toString()
-    {
-    	return "nom:["+ this.nom+ "], pointDeVie:[" + this.pointDeVie + "], attaque:[" + this.degat + "]";
-    }
-    
+
+	public void attaquer(Combattant adversaire) {
+		System.out.println(this.nom + " attaque " + adversaire.getNom());
+		adversaire.defendre(this.degat);
+		
+		System.out.println(adversaire.getNom() + " : " + adversaire.getPointDeVie() + " -(" + this.getDegat() + ") -> "
+				+ (adversaire.defendre(this.degat)));
+		
+	}
+
+	public int defendre(int degat) {
+		return this.pointDeVie -= degat;
+	}
+
+	public String toString() {
+		return "nom:[" + this.nom + "], pointDeVie:[" + this.pointDeVie + "], attaque:[" + this.degat + "]";
+	}
+
 }

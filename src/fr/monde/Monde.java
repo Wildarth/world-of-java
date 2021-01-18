@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import fr.personnage.AbstractCombattant;
+import fr.personnage.Combattant;
 import fr.personnage.Monstre;
 import fr.personnage.Personnage;
 import fr.utilitaire.Tool;
@@ -76,18 +76,18 @@ public class Monde {
 	}
 	
 	/**
-	 * 
+	 * Fait combattre un personnage contre un monstre.
 	 * @param personnage
 	 * @param monstre
 	 */
-	public static void combat(Personnage personnage, Monstre monstre) {
+	public static void combat(Combattant personnage, Combattant monstre) {
 		boolean turn = true;
 		while(stillAlive(personnage, monstre)) {
 			if(turn) {
-				attaque(personnage, monstre);
+				personnage.attaquer(monstre);
 				turn = !turn;
 			} else {
-				attaque(monstre, personnage);
+				monstre.attaquer(personnage);
 				turn = !turn;
 			}
 		}
@@ -102,17 +102,13 @@ public class Monde {
 	}
 	
 	
-
-	private static void afficherDefaite(AbstractCombattant gagant, AbstractCombattant perdant) {
-		System.out.println(gagant.nom + " a gagné contre " + perdant.nom + " !!");
-	}
-
-	private static void attaque(AbstractCombattant attaquant, AbstractCombattant defenseur) {
-		
-		System.out.println(attaquant.nom + " attaque " + defenseur.nom);
-		System.out.println(defenseur.nom + " : " + defenseur.pointDeVie + " -(" + attaquant.degat + ") -> "
-				+ (defenseur.pointDeVie -= attaquant.degat));
-		
+	/**
+	 * Affiche un message lors de la victoire d'un combat.
+	 * @param gagant Un combattant qui a gagné.
+	 * @param perdant Un combattant qui a perdu.
+	 */
+	private static void afficherDefaite(Combattant gagant, Combattant perdant) {
+		System.out.println(gagant.getNom() + " a gagné contre " + perdant.getNom() + " !!");
 	}
 
 	/**
@@ -121,7 +117,7 @@ public class Monde {
 	 * @param monstre Un monstre
 	 * @return Retourne un booléen. "true" si les 2 sont toujours vivant, "false" sinon.  
 	 */
-	private static boolean stillAlive(Personnage personnage, Monstre monstre) {
+	private static boolean stillAlive(Combattant personnage, Combattant monstre) {
 		return stillAlive(personnage) && stillAlive(monstre);
 	}
 	
@@ -130,7 +126,7 @@ public class Monde {
 	 * @param combattant Une instance d'une classe héritant de AbstractCombattant.
 	 * @return Retourne un booléen. "true" si le combattant est vivant, "false" sinon.  
 	 */
-	private static boolean stillAlive(AbstractCombattant combattant) {
-		return combattant.getPointDeVie() >= 0;
+	private static boolean stillAlive(Combattant combattant) {
+		return combattant.getPointDeVie() > 0;
 	}
 }
