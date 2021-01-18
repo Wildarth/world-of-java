@@ -25,7 +25,7 @@ public class Monde {
 
 		String nom = Tool.demanderString("Entrer le nom de votre personnage :");
 
-		Personnage personnage = new Personnage(50, 5, nom);
+		Personnage personnage = new Personnage(nom, 50, 5);
 
 		personnages.add(personnage);
 
