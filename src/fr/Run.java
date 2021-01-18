@@ -7,8 +7,8 @@ public class Run {
 
 	public static void main(String[] args) {
 		//exercice1();
-		exercice2();
-		
+		//exercice2();
+		exercice4();
 	}
 	
 	@SuppressWarnings("unused")
@@ -23,5 +23,10 @@ public class Run {
 		Personnage personnage = Monde.personnageFactory();
 		
 		Monde.afficherInformations();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void exercice4() {
+		Monde.combat(Monde.personnageFactory(), Monde.monstreFactory());
 	}
 }
