@@ -9,6 +9,8 @@ public class Run {
 		//exercice1();
 		//exercice2();
 		exercice4();
+
+
 	}
 	
 	@SuppressWarnings("unused")
