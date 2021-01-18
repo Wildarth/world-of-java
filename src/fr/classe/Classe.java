@@ -43,4 +43,9 @@ public class Classe {
 	public Attaque getAttaque() {
 		return attaques.get(random.nextInt(attaques.size()));
 	}
+	
+	@Override
+	public String toString() {
+		return this.nom + attaques.toString();
+	}
 }

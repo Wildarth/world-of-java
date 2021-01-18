@@ -29,4 +29,6 @@ public interface Attaque {
      */
     public int lancerAttaque(Combattant lanceur, Combattant cible);
 
+    @Override
+    String toString();
 }

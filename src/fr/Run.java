@@ -1,5 +1,7 @@
 package fr;
 
+import java.util.Scanner;
+
 import fr.monde.Monde;
 import fr.personnage.Personnage;
 
@@ -11,8 +13,14 @@ public class Run {
 		
 		//exercice1();
 		//exercice2();
-		exercice4();
+		//exercice4();
 
+		
+		//Monde.afficherInformations();
+		
+		Monde.genese();
+		
+		
 	}
 	
 	@SuppressWarnings("unused")

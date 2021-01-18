@@ -1,6 +1,5 @@
 package fr.personnage;
 
-import fr.attaque.Attaque;
 import fr.classe.Classe;
 
 public class Personnage extends AbstractCombattant{	
@@ -23,13 +22,6 @@ public class Personnage extends AbstractCombattant{
 	
 	@Override
 	public void attaquer(Combattant adversaire) {
-		System.out.println(this.getNom() + " attaque " + adversaire.getNom());
-		
-		Attaque attaque = classe.getAttaque();
-		int degat = attaque.lancerAttaque(this, adversaire);
-		
-		System.out.println(adversaire.getNom() + " : " + adversaire.getPointDeVie() + " -(" + degat + ") -> "
-				+ (adversaire.defendre(degat)));
-		
+		adversaire.defendre(this.classe.getAttaque().lancerAttaque(this, adversaire));
 	}
 }
