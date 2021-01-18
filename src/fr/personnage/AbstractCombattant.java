@@ -47,6 +47,11 @@ public abstract class AbstractCombattant implements Combattant {
 	public int defendre(int degat) {
 		return this.pointDeVie -= degat;
 	}
+	
+	@Override
+	public boolean estMort() {
+		return this.pointDeVie > 0;
+	}
 
 	public String toString() {
 		return "nom:[" + this.nom + "], pointDeVie:[" + this.pointDeVie + "], attaque:[" + this.degat + "]";

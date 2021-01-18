@@ -1,6 +1,16 @@
 package fr.personnage;
 
 public interface Combattant {
+
+	
+	
+	public String getNom();
+	public int getDegat();
+	public int getPointDeVie();
+	
+	public void setNom(String nom);
+	public void setDegat(int degat);
+	public void setPointDeVie(int pointDeVie);
 	
 	/**
 	 * Le combattant attaque un autre.
@@ -15,11 +25,10 @@ public interface Combattant {
 	 */
 	public int defendre(int degat);
 	
-	public String getNom();
-	public int getDegat();
-	public int getPointDeVie();
+	/**
+	 * Indique si un combattant est mort ou non.
+	 * @return True si le combattant est mort, sinon False.
+	 */
+	public boolean estMort();
 	
-	public void setNom(String nom);
-	public void setDegat(int degat);
-	public void setPointDeVie(int pointDeVie);
 }
