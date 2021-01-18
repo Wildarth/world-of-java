@@ -13,7 +13,7 @@ public class Tool {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(message);	
 		String retour = sc.next();
-		sc.close();
+		//sc.close();
 		return retour;
 	}
 	

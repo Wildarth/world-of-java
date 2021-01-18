@@ -1,7 +1,9 @@
 package fr.monde;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import fr.attaque.Attaque;
@@ -16,6 +18,8 @@ public class Monde {
 	
 	public static String[] debutNom = new String[] {"chien", "loup", "bandit", "magicien"};
 	public static String[] finNom = new String[] {"mechant", "de feu", "des bois", "des ténèbres"};
+	
+	public static Map<String, Classe> dictionnaire = new HashMap<>(); 
 
 	private static List<Personnage> personnages = new ArrayList<>();
 	private static List<Monstre> monstres = new ArrayList<>();
@@ -24,6 +28,40 @@ public class Monde {
 	
 	private Monde() {
 
+	}
+	
+	/**
+	 * Initialise le monde.
+	 */
+	public static void initialiseMonde() {
+		creerClasses();
+	}
+
+	private static void creerClasses() {
+		creerMage();
+		creerGuerrier();
+		creerVoleur();
+	}
+	
+	private static void creerMage() {
+		List<Attaque> attaques = new ArrayList<>();
+		attaques.add(new BasicAttaque("Boule de feu", 15, "Une petite boule de feu, forte chance de touché.", 90.0));
+		attaques.add(new BasicAttaque("Grosse boule de glace", 30, "Une grosse boule de glace, chance moyenne de touché.", 50.0));
+		dictionnaire.put("Mage", new Classe("Mage", attaques));
+	}
+	
+	private static void creerGuerrier() {
+		List<Attaque> attaques = new ArrayList<>();
+		attaques.add(new BasicAttaque("Coup d'épée", 10, "Un simple coup d'épée, très forte chance de touché.", 95.0));
+		attaques.add(new BasicAttaque("Lancer de hache", 35, "Lance une petite hachette, faible chance de touché.", 25.0));
+		dictionnaire.put("Guerrier", new Classe("Guerrier", attaques));
+	}
+	
+	private static void creerVoleur() {
+		List<Attaque> attaques = new ArrayList<>();
+		attaques.add(new BasicAttaque("Coup de dague", 8, "Un simple coup de dague, ne rate jamais.", 100.0));
+		attaques.add(new BasicAttaque("Lancer de couteau", 25, "Lance un petit couteau, chance de touché élevé.", 80.0));
+		dictionnaire.put("Voleur", new Classe("Voleur", attaques));
 	}
 
 	/**
@@ -37,18 +75,34 @@ public class Monde {
 
 		String nom = Tool.demanderString("Entrer le nom de votre personnage :");
 
-		List<Attaque> attaques = new ArrayList<>();
-		attaques.add(new BasicAttaque("Boule de feu", 15, "Une petite boule de feu, forte chance de touché.", 90.0));
-		attaques.add(new BasicAttaque("Grosse boule de glace", 30, "Une grosse boule de glace, chance moyenne de touché.", 50.0));
-		Classe mage = new Classe("Mage", attaques);
-		
-		Personnage personnage = new Personnage(nom, 50, 5, mage);
+		Personnage personnage = new Personnage(nom, 50, 5, demanderClasse());
 
 		personnages.add(personnage);
 
 		return personnage;
 	}
 	
+	/**
+	 * Demande à l'utilisateur le nom de classe qu'il veut.
+	 * @return Renvoie la classe que l'utilisateur a choisi.
+	 */
+	private static Classe demanderClasse() {
+		
+		System.out.println("Les classes suivantes sont disponibles :");
+		for (String nom : dictionnaire.keySet()) {
+			System.out.println(nom);
+		}
+		
+		Classe classe = null;
+		
+		while(classe == null){
+			classe = dictionnaire.get(Tool.demanderString("Quel classe choisis-tu ?"));
+			if(classe == null) System.out.println("Nom invalide !");
+		}
+		
+		return classe;
+	}
+
 	/**
 	 * Créer un monstre avec tous ses attributs. Son nom et ses attributs son générés aléatoirement.
 	 * Le monstre est ajouté à la liste des personnages du monde.
@@ -136,5 +190,14 @@ public class Monde {
 	 */
 	private static boolean stillAlive(Combattant combattant) {
 		return combattant.getPointDeVie() > 0;
+	}
+	
+	/**
+	 * Renvoie la Classe correspondant au nom donné. 
+	 * @param nom Le nom d'une classe
+	 * @return La Classe demandé.
+	 */
+	public static Classe getClasse(String nom) {
+		return dictionnaire.get(nom);
 	}
 }

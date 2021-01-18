@@ -6,10 +6,12 @@ import fr.personnage.Personnage;
 public class Run {
 
 	public static void main(String[] args) {
+		
+		Monde.initialiseMonde();
+		
 		//exercice1();
 		//exercice2();
 		exercice4();
-
 
 	}
 	
