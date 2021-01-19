@@ -16,8 +16,6 @@ public class Run {
 		
 		//Monde.afficherInformations();
 		
-		Monde.creationClasse();
-		
 		Monde.genese();
 		
 		

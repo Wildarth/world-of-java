@@ -9,15 +9,23 @@ import fr.personnage.Combattant;
 public class Groupe implements Combattant {
 	
 	private List<Combattant> combattants = new ArrayList<>();
+	private List<Combattant> estMortAuCombat = new ArrayList<>();
+	@SuppressWarnings("unused")
 	private String nom;
 	private int degat;
 	private int pointDeVie;
 	
 	private Random random = new Random();
+	
 
 	@Override
 	public String getNom() {
-		return nom;
+		if(combattants.isEmpty()) {
+			return "Groupe de " + estMortAuCombat.get(0).getNom();
+		} else {
+			return "Groupe de " + combattants.get(0).getNom();
+		}
+		
 	}
 
 	@Override
@@ -59,9 +67,16 @@ public class Groupe implements Combattant {
 	
 	public boolean estMort() {
 		boolean estMort = true;
+		List<Combattant> newList = new ArrayList<>(combattants);
 		for (Combattant combattant : combattants) {
-			estMort &= combattant.estMort();
+			if(combattant.estMort()) {
+				newList.remove(combattant);
+				estMortAuCombat.add(combattant);
+			}else {
+				estMort = false;
+			}
 		}
+		combattants = newList;
 		return estMort;
 	}
 
@@ -70,14 +85,14 @@ public class Groupe implements Combattant {
 	 */
 	@Override
 	public void attaquer(Combattant adversaire) {
-		combattants.get(random.nextInt(combattants.size())).attaquer(adversaire);
+		combattants.get(random.nextInt(combattants.size())).attaquer(adversaire);	
 	}
 
 	/**
 	 * Un combattant aléatoire du groupe encaisse le coup.
 	 */
 	@Override
-	public int defendre(int degat) {
+	public Combattant defendre(int degat) {
 		return combattants.get(random.nextInt(combattants.size())).defendre(degat);
 	}
 	

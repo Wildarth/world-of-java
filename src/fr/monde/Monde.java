@@ -36,43 +36,52 @@ public class Monde {
 	 * Affiche un menu de sélection initial.
 	 */
 	public static void genese() {
-		System.out.println("---***--- Bonjour ---***---");
-		System.out.println("Choisir une option:");
-		System.out.println("1: Lancer un combat 1v1");
-		System.out.println("2: Lancer un combat de groupe");
-		System.out.println("3: One vs World Hardcore Edition");
-		System.out.println("4: Informations");
-		System.out.println("----------------------------");
+		boolean onContinue = true;
 
-		choixJoueur();
+		while (onContinue) {
+			System.out.println("---***--- Bonjour ---***---");
+			System.out.println("Choisir une option:");
+			System.out.println("1: Lancer un combat 1v1");
+			System.out.println("2: Lancer un combat de groupe");
+			System.out.println("3: One vs World Hardcore Edition");
+			System.out.println("4: Informations");
+			System.out.println("5: Création de classe");
+			System.out.println("----------------------------");
+
+			onContinue = choixJoueur();
+		}
+
+		System.out.println("Aurevoir !");
 	}
 
-	private static void choixJoueur() {
-		int retour = -1;
-		while (retour <= 0 || retour >= 5) {
-			retour = Tool.demanderInt(">>>");
-		}
+	private static boolean choixJoueur() {
+
+		int retour = Tool.demanderInt(">>>");
 
 		switch (retour) {
 		case 1:
 			combat1v1();
-			break;
+			return true;
 
 		case 2:
 			combatGroupe(Tool.demanderInt("Quelle taille pour le groupe de personnage ?"),
 					Tool.demanderInt("Quelle taille pour le groupe de monstre ?"));
-			break;
+			return true;
 
 		case 3:
 			combatSolo(Tool.demanderInt("Quelle taille pour le groupe de monstre ?"));
-			break;
+			return true;
 
 		case 4:
 			afficherInformations();
-			break;
+			return true;
+
+		case 5:
+			creationClasse();
+			return true;
 
 		default:
-			break;
+			return false;
 
 		}
 
@@ -92,18 +101,18 @@ public class Monde {
 	 * @param tailleGroupeMonstre
 	 */
 	public static void combatGroupe(int tailleGroupePersonnage, int tailleGroupeMonstre) {
-		Groupe personnages = new Groupe();
-		Groupe monstres = new Groupe();
+		Groupe listPersonnages = new Groupe();
+		Groupe listMonstres = new Groupe();
 
 		for (int i = 0; i < tailleGroupePersonnage; i++) {
-			personnages.addCombattant(personnageFactory());
+			listPersonnages.addCombattant(personnageFactory());
 		}
 
 		for (int i = 0; i < tailleGroupeMonstre; i++) {
-			monstres.addCombattant(monstreFactory());
+			listMonstres.addCombattant(monstreFactory());
 		}
 
-		combat(personnages, monstres);
+		combat(listPersonnages, listMonstres);
 	}
 
 	/**
@@ -112,13 +121,13 @@ public class Monde {
 	 * @param tailleGroupeMonstre
 	 */
 	public static void combatSolo(int tailleGroupeMonstre) {
-		Groupe monstres = new Groupe();
+		Groupe listMonstres = new Groupe();
 
 		for (int i = 0; i < tailleGroupeMonstre; i++) {
-			monstres.addCombattant(monstreFactory());
+			listMonstres.addCombattant(monstreFactory());
 		}
 
-		combat(personnageFactory(), monstres);
+		combat(personnageFactory(), listMonstres);
 	}
 
 	/**
@@ -127,7 +136,7 @@ public class Monde {
 	public static void initialiseMonde() {
 		creerAttaques();
 		creerClasses();
-		creerMonstres(5);	
+		creerMonstres(5);
 	}
 
 	private static void creerAttaques() {
@@ -270,14 +279,13 @@ public class Monde {
 	 */
 	public static void combat(Combattant personnage, Combattant monstre) {
 		boolean turn = true;
-		while (stillAlive(personnage, monstre)) {
+		while (!(personnage.estMort() || monstre.estMort())) {
 			if (turn) {
 				personnage.attaquer(monstre);
-				turn = !turn;
 			} else {
 				monstre.attaquer(personnage);
-				turn = !turn;
 			}
+			turn =! turn;
 		}
 
 		quiGagne(personnage, monstre);
@@ -290,7 +298,7 @@ public class Monde {
 	 * @param monstre
 	 */
 	private static void quiGagne(Combattant personnage, Combattant monstre) {
-		if (stillAlive(personnage)) {
+		if (!personnage.estMort()) {
 			System.out.println("\nVictoire !!!");
 			afficherDefaite(personnage, monstre);
 		} else {
@@ -307,29 +315,6 @@ public class Monde {
 	 */
 	private static void afficherDefaite(Combattant gagant, Combattant perdant) {
 		System.out.println(gagant.getNom() + " a gagné contre " + perdant.getNom() + " !!");
-	}
-
-	/**
-	 * Vérifie si les 2 combattants sont toujours vivant.
-	 * 
-	 * @param personnage Un personnage
-	 * @param monstre    Un monstre
-	 * @return Retourne un booléen. "true" si les 2 sont toujours vivant, "false"
-	 *         sinon.
-	 */
-	private static boolean stillAlive(Combattant personnage, Combattant monstre) {
-		return stillAlive(personnage) && stillAlive(monstre);
-	}
-
-	/**
-	 * Vérifie si un combattant est toujours vivant.
-	 * 
-	 * @param combattant Une instance d'une classe héritant de AbstractCombattant.
-	 * @return Retourne un booléen. "true" si le combattant est vivant, "false"
-	 *         sinon.
-	 */
-	private static boolean stillAlive(Combattant combattant) {
-		return combattant.getPointDeVie() > 0;
 	}
 
 	/**
@@ -374,33 +359,34 @@ public class Monde {
 
 	/**
 	 * Crée une classe
+	 * 
 	 * @return la classe créé
 	 */
 	public static Classe creationClasse() {
 		String nom = Tool.demanderString("Donner un nom à la classe :");
-		
+
 		Classe classe = new Classe(nom, genererListAttaque());
-		
+
 		dictionnaire.put(nom, classe);
-		
+
 		return classe;
 	}
 
 	private static List<Attaque> genererListAttaque() {
-		
+
 		List<Attaque> listAttaques = new ArrayList<>();
-		
+
 		for (int i = 0; i < 2; i++) {
 			listAttaques.add(selectionnerAttaque());
 		}
-		
+
 		return listAttaques;
 	}
 
 	private static Attaque selectionnerAttaque() {
 		System.out.println("1. " + attaques.get(random.nextInt(attaques.size())));
 		System.out.println("2. " + attaques.get(random.nextInt(attaques.size())));
-		
+
 		return attaques.get(Tool.demanderInt("Quelle compétence ajouter ?"));
 	}
 }

@@ -67,10 +67,8 @@ public class BasicAttaque implements Attaque{
 	@Override
 	public int lancerAttaque(Combattant lanceur, Combattant cible) {
 		if((random.nextDouble() * 100) < this.getChanceToucher()) {
-			System.out.println(lanceur.getNom() + " utilise " + this.nom + " et inflige " + this.getDegat() + " dégats à " + cible.getNom() );
 			return this.getDegat();
 		} else {
-			System.out.println(lanceur.getNom() + " rate " + this.nom);
 			return 0;
 		}
 	}

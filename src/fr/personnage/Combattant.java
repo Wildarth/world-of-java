@@ -23,7 +23,7 @@ public interface Combattant {
 	 * @param degat L'entier que subit le combattant.
 	 * @return Renvoie la vie restante du combattant.
 	 */
-	public int defendre(int degat);
+	public Combattant defendre(int degat);
 	
 	/**
 	 * Indique si un combattant est mort ou non.
