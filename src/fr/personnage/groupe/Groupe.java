@@ -10,12 +10,16 @@ public class Groupe implements Combattant {
 	
 	private List<Combattant> combattants = new ArrayList<>();
 	private List<Combattant> estMortAuCombat = new ArrayList<>();
+	
 	@SuppressWarnings("unused")
 	private String nom;
 	private int degat;
 	private int pointDeVie;
+	private int pointDeVieMax;
 	
 	private Random random = new Random();
+	private int lastDegat;
+	
 	
 
 	@Override
@@ -94,6 +98,23 @@ public class Groupe implements Combattant {
 	@Override
 	public Combattant defendre(int degat) {
 		return combattants.get(random.nextInt(combattants.size())).defendre(degat);
+	}
+
+	@Override
+	public int getPointDeVieMax() {
+		return pointDeVieMax;
+	}
+
+	@Override
+	public void soigner(int soin) {
+		for (Combattant combattant : combattants) {
+			combattant.soigner(soin);
+		}
+	}
+
+	@Override
+	public int getLastDegat() {
+		return lastDegat;
 	}
 	
 }

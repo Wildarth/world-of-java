@@ -5,18 +5,22 @@ import java.util.List;
 import java.util.Random;
 
 import fr.attaque.Attaque;
+import fr.attaque.Defence;
 
 public class Classe {
 
 	private String nom;
 	private List<Attaque> attaques = new ArrayList<>();
+	
+	private List<Defence> defences = new ArrayList<>();
 
 	private Random random = new Random();
 
-	public Classe(String nom, List<Attaque> attaques) {
+	public Classe(String nom, List<Attaque> attaques, List<Defence> defences) {
 		super();
 		this.nom = nom;
 		this.attaques = attaques;
+		this.defences = defences;
 	}
 
 	public String getNom() {
@@ -44,8 +48,17 @@ public class Classe {
 		return attaques.get(random.nextInt(attaques.size()));
 	}
 	
+	/**
+	 * Récupère une defence parmis les defences de la classe.
+	 * 
+	 * @return Renvoie une defence sélectionné aléatoirement.
+	 */
+	public Defence getDefence() {
+		return defences.get(random.nextInt(defences.size()));
+	}
+	
 	@Override
 	public String toString() {
-		return this.nom + attaques.toString();
+		return this.nom + "\n" + attaques.toString() + "\n" + defences.toString() + "\n";
 	}
 }

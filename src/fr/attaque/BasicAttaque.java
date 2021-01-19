@@ -75,8 +75,14 @@ public class BasicAttaque implements Attaque{
 
 	@Override
 	public String toString() {
-		return "BasicAttaque [nom=" + nom + ", degat=" + degat + ", description=" + description + ", chanceToucher="
-				+ chanceToucher + "]\n";
+		return nom + ", " + degat + " ATK, " + description + ", "
+				+ chanceToucher + "% \n";
+	}
+
+	@Override
+	public void information() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

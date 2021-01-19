@@ -2,7 +2,7 @@ package fr.attaque;
 
 import fr.personnage.Combattant;
 
-public interface Attaque {
+public interface Attaque extends Sort {
 	
     public String getNom();
     public String getDescription();

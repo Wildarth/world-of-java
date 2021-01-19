@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import fr.attaque.AbsorbeDefence;
 import fr.attaque.Attaque;
 import fr.attaque.BasicAttaque;
+import fr.attaque.Defence;
+import fr.attaque.DefenceFlat;
+import fr.attaque.DefencePourcentage;
+import fr.attaque.ParadeDefence;
+import fr.attaque.Sort;
 import fr.classe.Classe;
 import fr.personnage.Combattant;
 import fr.personnage.Monstre;
@@ -25,6 +31,7 @@ public class Monde {
 	private static List<Personnage> personnages = new ArrayList<>();
 	private static List<Monstre> monstres = new ArrayList<>();
 	private static List<Attaque> attaques = new ArrayList<>();
+	private static List<Defence> defences = new ArrayList<>();
 
 	private static Random random = new Random();
 
@@ -135,8 +142,17 @@ public class Monde {
 	 */
 	public static void initialiseMonde() {
 		creerAttaques();
+		creerDefences();
 		creerClasses();
 		creerMonstres(5);
+		
+	}
+	
+	private static void creerDefences() {
+		defences.add(new DefenceFlat(4, "Bouclier en bois", "Un petit bouclier de bois."));
+		defences.add(new DefencePourcentage(0.25, "Bouclier en cuir", "Un petit bouclier en cuir."));
+		defences.add(new AbsorbeDefence(0.8, 0.2, "Armure d'absorption", "Une armure qui soigne le porteur lorsqu'il subit des dégats."));
+		defences.add(new ParadeDefence(0.5, "Cape d'agilité", "Une cape qui augmente l'esquive du porteur."));
 	}
 
 	private static void creerAttaques() {
@@ -167,21 +183,28 @@ public class Monde {
 		List<Attaque> listAttaques = new ArrayList<>();
 		listAttaques.add(attaques.get(0));
 		listAttaques.add(attaques.get(1));
-		dictionnaire.put("Mage", new Classe("Mage", listAttaques));
+		List<Defence> listDefences = new ArrayList<>();
+		listDefences.add(defences.get(1));
+		listDefences.add(defences.get(2));
+		dictionnaire.put("Mage", new Classe("Mage", listAttaques, listDefences));
 	}
 
 	private static void creerGuerrier() {
 		List<Attaque> listAttaques = new ArrayList<>();
 		listAttaques.add(attaques.get(2));
 		listAttaques.add(attaques.get(3));
-		dictionnaire.put("Guerrier", new Classe("Guerrier", listAttaques));
+		List<Defence> listDefences = new ArrayList<>();
+		listDefences.add(defences.get(0));
+		dictionnaire.put("Guerrier", new Classe("Guerrier", listAttaques, listDefences));
 	}
 
 	private static void creerVoleur() {
 		List<Attaque> listAttaques = new ArrayList<>();
 		listAttaques.add(attaques.get(4));
 		listAttaques.add(attaques.get(5));
-		dictionnaire.put("Voleur", new Classe("Voleur", listAttaques));
+		List<Defence> listDefences = new ArrayList<>();
+		listDefences.add(defences.get(3));
+		dictionnaire.put("Voleur", new Classe("Voleur", listAttaques, listDefences));
 	}
 
 	/**
@@ -364,29 +387,42 @@ public class Monde {
 	 */
 	public static Classe creationClasse() {
 		String nom = Tool.demanderString("Donner un nom à la classe :");
+		
+		List<Attaque> listAttaques = new ArrayList<>();
+		List<Defence> listDefences = new ArrayList<>();
+		selectionnerSort(listAttaques, listDefences);
 
-		Classe classe = new Classe(nom, genererListAttaque());
+		Classe classe = new Classe(nom, listAttaques, listDefences);
 
 		dictionnaire.put(nom, classe);
 
 		return classe;
 	}
 
-	private static List<Attaque> genererListAttaque() {
+	private static void selectionnerSort(List<Attaque> listAttaques, List<Defence> listDefences) {
 
-		List<Attaque> listAttaques = new ArrayList<>();
-
-		for (int i = 0; i < 2; i++) {
-			listAttaques.add(selectionnerAttaque());
+		for (int i = 0; i < 4; i++) {
+			Sort sort = selectionnerSort();
+			
+			if(sort instanceof Attaque) {
+				listAttaques.add((Attaque) sort);
+			} else {
+				listDefences.add((Defence) sort);
+			}	
 		}
-
-		return listAttaques;
 	}
 
-	private static Attaque selectionnerAttaque() {
-		System.out.println("1. " + attaques.get(random.nextInt(attaques.size())));
-		System.out.println("2. " + attaques.get(random.nextInt(attaques.size())));
-
-		return attaques.get(Tool.demanderInt("Quelle compétence ajouter ?"));
+	private static Sort selectionnerSort() {
+		Attaque attaque = attaques.get(random.nextInt(attaques.size()));
+		Defence defence = defences.get(random.nextInt(defences.size()));
+		System.out.println("1. " + attaque);
+		System.out.println("2. " + defence);
+		
+		if(Tool.demanderInt("Quelle compétence ajouter ?") == 1) {
+			return attaque;
+		} else {
+			return defence;
+		}
 	}
+
 }

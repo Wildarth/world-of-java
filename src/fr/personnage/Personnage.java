@@ -19,6 +19,7 @@ public class Personnage extends AbstractCombattant {
 	public void setClasse(Classe classe) {
 		this.classe = classe;
 	}
+	
 
 	@Override
 	public void attaquer(Combattant adversaire) {
@@ -32,8 +33,15 @@ public class Personnage extends AbstractCombattant {
 			System.out.println(this.getNom() + " rate " + attaque.getNom());
 		} else {
 
-			System.out.println(this.getNom() + " utilise " + attaque.getNom() + " et inflige " + this.getDegat()
+			System.out.println(this.getNom() + " utilise " + attaque.getNom() + " et inflige " + cible.getLastDegat()
 					+ " dégats à " + cible.getNom() + " (" + cible.getPointDeVie() + " PV)") ;
 		}
 	}
+	
+	@Override
+	public Combattant defendre(int degat) {
+		return super.defendre(classe.getDefence().defence(degat, this));
+	}
+
+
 }
