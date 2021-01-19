@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import fr.classe.Classe;
 import fr.personnage.Combattant;
@@ -23,6 +24,8 @@ import fr.utilitaire.Tool;
 
 public class Monde {
 
+	public static final String sep = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+
 	public static String[] debutNom = new String[] { "chien", "loup", "bandit", "magicien" };
 	public static String[] finNom = new String[] { "mechant", "de feu", "des bois", "des ténèbres" };
 
@@ -34,9 +37,21 @@ public class Monde {
 	private static List<Defence> defences = new ArrayList<>();
 
 	private static Random random = new Random();
+	private static Scanner scanner = new Scanner(System.in);
 
 	private Monde() {
 
+	}
+
+	/**
+	 * Affiche les informations en combat.
+	 */
+	public static void affichageCombat(Combattant combattant, Combattant adversaire) {
+		System.out.println("\n" + sep);
+		System.out.println(combattant.getNom() + " " + combattant.getPointDeVie() + "/" + combattant.getPointDeVieMax()
+				+ " PV" + " <-- /\\ --> " + adversaire.getNom() + " " + adversaire.getPointDeVie() + "/"
+				+ adversaire.getPointDeVieMax() + " PV");
+		System.out.println(sep + "\n");
 	}
 
 	/**
@@ -46,14 +61,14 @@ public class Monde {
 		boolean onContinue = true;
 
 		while (onContinue) {
-			System.out.println("---***--- Bonjour ---***---");
+			System.out.println("---***--- Bonjour ---***---\n");
 			System.out.println("Choisir une option:");
 			System.out.println("1: Lancer un combat 1v1");
 			System.out.println("2: Lancer un combat de groupe");
 			System.out.println("3: One vs World Hardcore Edition");
 			System.out.println("4: Informations");
 			System.out.println("5: Création de classe");
-			System.out.println("----------------------------");
+			System.out.println(sep);
 
 			onContinue = choixJoueur();
 		}
@@ -145,13 +160,14 @@ public class Monde {
 		creerDefences();
 		creerClasses();
 		creerMonstres(5);
-		
+
 	}
-	
+
 	private static void creerDefences() {
 		defences.add(new DefenceFlat(4, "Bouclier en bois", "Un petit bouclier de bois."));
 		defences.add(new DefencePourcentage(0.25, "Bouclier en cuir", "Un petit bouclier en cuir."));
-		defences.add(new AbsorbeDefence(0.8, 0.2, "Armure d'absorption", "Une armure qui soigne le porteur lorsqu'il subit des dégats."));
+		defences.add(new AbsorbeDefence(0.8, 0.2, "Armure d'absorption",
+				"Une armure qui soigne le porteur lorsqu'il subit des dégats."));
 		defences.add(new ParadeDefence(0.5, "Cape d'agilité", "Une cape qui augmente l'esquive du porteur."));
 	}
 
@@ -300,18 +316,22 @@ public class Monde {
 	 * @param personnage
 	 * @param monstre
 	 */
-	public static void combat(Combattant personnage, Combattant monstre) {
+	public static void combat(Combattant combattant, Combattant adversaire) {
 		boolean turn = true;
-		while (!(personnage.estMort() || monstre.estMort())) {
+
+		while (!(combattant.estMort() || adversaire.estMort())) {
+			affichageCombat(combattant, adversaire);
 			if (turn) {
-				personnage.attaquer(monstre);
+				combattant.attaquer(adversaire);
 			} else {
-				monstre.attaquer(personnage);
+				adversaire.attaquer(combattant);
 			}
-			turn =! turn;
+			turn = !turn;
+
+			scanner.nextLine();
 		}
 
-		quiGagne(personnage, monstre);
+		quiGagne(combattant, adversaire);
 	}
 
 	/**
@@ -387,7 +407,7 @@ public class Monde {
 	 */
 	public static Classe creationClasse() {
 		String nom = Tool.demanderString("Donner un nom à la classe :");
-		
+
 		List<Attaque> listAttaques = new ArrayList<>();
 		List<Defence> listDefences = new ArrayList<>();
 		selectionnerSort(listAttaques, listDefences);
@@ -403,12 +423,12 @@ public class Monde {
 
 		for (int i = 0; i < 4; i++) {
 			Sort sort = selectionnerSort();
-			
-			if(sort instanceof Attaque) {
+
+			if (sort instanceof Attaque) {
 				listAttaques.add((Attaque) sort);
 			} else {
 				listDefences.add((Defence) sort);
-			}	
+			}
 		}
 	}
 
@@ -417,8 +437,8 @@ public class Monde {
 		Defence defence = defences.get(random.nextInt(defences.size()));
 		System.out.println("1. " + attaque);
 		System.out.println("2. " + defence);
-		
-		if(Tool.demanderInt("Quelle compétence ajouter ?") == 1) {
+
+		if (Tool.demanderInt("Quelle compétence ajouter ?") == 1) {
 			return attaque;
 		} else {
 			return defence;
