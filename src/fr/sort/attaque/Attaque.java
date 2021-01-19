@@ -1,6 +1,7 @@
-package fr.attaque;
+package fr.sort.attaque;
 
 import fr.personnage.Combattant;
+import fr.sort.Sort;
 
 public interface Attaque extends Sort {
 	

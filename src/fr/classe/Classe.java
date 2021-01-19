@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import fr.attaque.Attaque;
-import fr.attaque.Defence;
+import fr.sort.attaque.Attaque;
+import fr.sort.defence.Defence;
 
 public class Classe {
 

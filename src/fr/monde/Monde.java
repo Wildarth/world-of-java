@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import fr.attaque.AbsorbeDefence;
-import fr.attaque.Attaque;
-import fr.attaque.BasicAttaque;
-import fr.attaque.Defence;
-import fr.attaque.DefenceFlat;
-import fr.attaque.DefencePourcentage;
-import fr.attaque.ParadeDefence;
-import fr.attaque.Sort;
 import fr.classe.Classe;
 import fr.personnage.Combattant;
 import fr.personnage.Monstre;
 import fr.personnage.Personnage;
 import fr.personnage.groupe.Groupe;
+import fr.sort.Sort;
+import fr.sort.attaque.Attaque;
+import fr.sort.attaque.BasicAttaque;
+import fr.sort.defence.AbsorbeDefence;
+import fr.sort.defence.Defence;
+import fr.sort.defence.DefenceFlat;
+import fr.sort.defence.DefencePourcentage;
+import fr.sort.defence.ParadeDefence;
 import fr.utilitaire.Tool;
 
 public class Monde {

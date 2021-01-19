@@ -1,4 +1,4 @@
-package fr.attaque;
+package fr.sort.attaque;
 
 import java.util.Random;
 

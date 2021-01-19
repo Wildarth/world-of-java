@@ -1,7 +1,7 @@
 package fr.personnage;
 
-import fr.attaque.Attaque;
 import fr.classe.Classe;
+import fr.sort.attaque.Attaque;
 
 public class Personnage extends AbstractCombattant {
 

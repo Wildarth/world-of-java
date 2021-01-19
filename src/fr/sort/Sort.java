@@ -1,4 +1,4 @@
-package fr.attaque;
+package fr.sort;
 
 public interface Sort {
 	
