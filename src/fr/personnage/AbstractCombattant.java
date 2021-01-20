@@ -77,6 +77,10 @@ public abstract class AbstractCombattant implements Combattant {
 			this.pointDeVie = this.pointDeVieMax;
 		}
 	}
+	
+	public String affichageCombatUnique() {
+		return this.getNom() + " " + this.getPointDeVie() + "/" + this.getPointDeVieMax() + " PV";
+	}
 
 	public String toString() {
 		return this.nom + ", " + this.pointDeVieMax + " PV, " + this.degat + " ATK";

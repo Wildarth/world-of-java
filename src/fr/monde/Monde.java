@@ -8,6 +8,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 import fr.classe.Classe;
+import fr.donjon.Donjon;
+import fr.donjon.salle.FontaineSalle;
+import fr.donjon.salle.MonstreCombatSalle;
 import fr.personnage.Combattant;
 import fr.personnage.Monstre;
 import fr.personnage.Personnage;
@@ -43,16 +46,16 @@ public class Monde {
 
 	}
 
+
 	/**
 	 * Affiche les informations en combat.
 	 */
 	public static void affichageCombat(Combattant combattant, Combattant adversaire) {
 		System.out.println("\n" + sep);
-		System.out.println(combattant.getNom() + " " + combattant.getPointDeVie() + "/" + combattant.getPointDeVieMax()
-				+ " PV" + " <-- /\\ --> " + adversaire.getNom() + " " + adversaire.getPointDeVie() + "/"
-				+ adversaire.getPointDeVieMax() + " PV");
+		System.out.println(combattant.affichageCombatUnique() + "\n <-- /\\ --> \n" + adversaire.affichageCombatUnique());
 		System.out.println(sep + "\n");
 	}
+	
 
 	/**
 	 * Affiche un menu de sélection initial.
@@ -68,6 +71,7 @@ public class Monde {
 			System.out.println("3: One vs World Hardcore Edition");
 			System.out.println("4: Informations");
 			System.out.println("5: Création de classe");
+			System.out.println("6: Combattre Donjon");
 			System.out.println(sep);
 
 			onContinue = choixJoueur();
@@ -77,7 +81,9 @@ public class Monde {
 	}
 
 	/**
-	 * Récupère le choix du joueur pour le menu à afficher, renvoie false si le joueur décide de quitter sinon renvoie true. 
+	 * Récupère le choix du joueur pour le menu à afficher, renvoie false si le
+	 * joueur décide de quitter sinon renvoie true.
+	 * 
 	 * @return Un booleen
 	 */
 	private static boolean choixJoueur() {
@@ -105,12 +111,25 @@ public class Monde {
 		case 5:
 			creationClasse();
 			return true;
+		case 6:
+			CombattreDonjon();
+			return true;
 
 		default:
 			return false;
 
 		}
 
+	}
+
+	private static void CombattreDonjon() {
+		Groupe listPersonnages = new Groupe();
+
+		for (int i = 0; i < 3; i++) {
+			listPersonnages.addCombattant(personnageFactory());
+		}
+		
+		DonjonFactory().entrer(listPersonnages);
 	}
 
 	/**
@@ -139,6 +158,24 @@ public class Monde {
 		}
 
 		combat(listPersonnages, listMonstres);
+	}
+
+	/**
+	 * Lance un combat entre un groupe de personnages et un groupe de monstres de
+	 * taille aléatoire.
+	 * 
+	 * @param combattant
+	 */
+	public static void combatGroupeRandom(Combattant combattant) {
+		Groupe listMonstres = new Groupe();
+
+		int taille = random.nextInt(2) + 1;
+
+		for (int i = 0; i < taille; i++) {
+			listMonstres.addCombattant(monstreFactory());
+		}
+
+		combat(combattant, listMonstres);
 	}
 
 	/**
@@ -285,6 +322,26 @@ public class Monde {
 	}
 
 	/**
+	 * Génère un donjon aléatoirement.
+	 * 
+	 * @return Le donjon généré.
+	 */
+	public static Donjon DonjonFactory() {
+		Donjon donjon = new Donjon("Donjon", "Un donjon");
+
+		int nombreSalle = random.nextInt(10) + 5;
+
+		for (int i = 0; i < nombreSalle; i++) {
+			if (random.nextDouble() < 0.85) {
+				donjon.ajouterSalle(new MonstreCombatSalle());
+			} else {
+				donjon.ajouterSalle(new FontaineSalle());
+			}
+		}
+		return donjon;
+	}
+
+	/**
 	 * affiche toutes les infos concernant le monde (monstre et classe)
 	 */
 	public static void afficherInformations() {
@@ -424,7 +481,9 @@ public class Monde {
 	}
 
 	/**
-	 * Propose à 4 reprises à l'utilisateur de choisir entre un sort de défence et un d'attaque.
+	 * Propose à 4 reprises à l'utilisateur de choisir entre un sort de défence et
+	 * un d'attaque.
+	 * 
 	 * @param listAttaques
 	 * @param listDefences
 	 */
@@ -442,7 +501,9 @@ public class Monde {
 	}
 
 	/**
-	 * Demande à l'utilisateur de choisir entre un sort de défence et un d'attaque, renvoie le sort sélectionné.
+	 * Demande à l'utilisateur de choisir entre un sort de défence et un d'attaque,
+	 * renvoie le sort sélectionné.
+	 * 
 	 * @return Le sort sélectionné.
 	 */
 	private static Sort selectionnerSort() {

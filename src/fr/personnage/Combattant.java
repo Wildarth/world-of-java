@@ -40,4 +40,6 @@ public interface Combattant {
 	 */
 	public void soigner(int soin);
 	
+	public String affichageCombatUnique();
+	
 }

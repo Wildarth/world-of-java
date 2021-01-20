@@ -117,4 +117,14 @@ public class Groupe implements Combattant {
 		return lastDegat;
 	}
 	
+	public String affichageCombatUnique() {
+		StringBuilder bld = new StringBuilder();
+		
+		for (Combattant combattant : this.getCombattants()) {
+			bld.append(combattant.affichageCombatUnique() + " | ");
+		}
+		
+		return bld.toString();
+	}
+	
 }
