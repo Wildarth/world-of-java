@@ -26,12 +26,6 @@ public class DefencePourcentage implements Defence {
 	}
 
 	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int defence(int degat, Combattant defenceur) {
 		return (int) (degat * (1 - pourcentage));
 	}

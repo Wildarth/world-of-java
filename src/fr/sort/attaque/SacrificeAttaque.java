@@ -24,11 +24,6 @@ public class SacrificeAttaque implements Attaque {
 	}
 
 	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public String getNom() {
 		return this.nom;
 	}

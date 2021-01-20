@@ -9,7 +9,7 @@ public class ParadeDefence implements Defence {
 	private double parade;
 	private String nom;
 	private String description;
-	private Random  random = new Random();
+	private Random random = new Random();
 
 	public ParadeDefence(double parade, String nom, String description) {
 		super();
@@ -27,7 +27,6 @@ public class ParadeDefence implements Defence {
 			this.parade = parade;
 	}
 
-	
 	@Override
 	public String getNom() {
 		return nom;
@@ -38,16 +37,9 @@ public class ParadeDefence implements Defence {
 		return description;
 	}
 
-
 	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int defence(int degat, Combattant defenceur) {		
-		if(random.nextDouble() <= parade) {
+	public int defence(int degat, Combattant defenceur) {
+		if (random.nextDouble() <= parade) {
 			return 0;
 		} else {
 			return degat;
@@ -58,7 +50,5 @@ public class ParadeDefence implements Defence {
 	public String toString() {
 		return "ParadeDefence [parade=" + parade + ", nom=" + nom + ", description=" + description + "]";
 	}
-	
-	
 
 }

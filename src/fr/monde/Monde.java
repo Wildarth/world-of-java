@@ -76,6 +76,10 @@ public class Monde {
 		System.out.println("Aurevoir !");
 	}
 
+	/**
+	 * Récupère le choix du joueur pour le menu à afficher, renvoie false si le joueur décide de quitter sinon renvoie true. 
+	 * @return Un booleen
+	 */
 	private static boolean choixJoueur() {
 
 		int retour = Tool.demanderInt(">>>");
@@ -419,6 +423,11 @@ public class Monde {
 		return classe;
 	}
 
+	/**
+	 * Propose à 4 reprises à l'utilisateur de choisir entre un sort de défence et un d'attaque.
+	 * @param listAttaques
+	 * @param listDefences
+	 */
 	private static void selectionnerSort(List<Attaque> listAttaques, List<Defence> listDefences) {
 
 		for (int i = 0; i < 4; i++) {
@@ -432,6 +441,10 @@ public class Monde {
 		}
 	}
 
+	/**
+	 * Demande à l'utilisateur de choisir entre un sort de défence et un d'attaque, renvoie le sort sélectionné.
+	 * @return Le sort sélectionné.
+	 */
 	private static Sort selectionnerSort() {
 		Attaque attaque = attaques.get(random.nextInt(attaques.size()));
 		Defence defence = defences.get(random.nextInt(defences.size()));

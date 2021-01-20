@@ -79,12 +79,4 @@ public class BasicAttaque implements Attaque{
 				+ chanceToucher + "% \n";
 	}
 
-	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-
 }

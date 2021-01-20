@@ -26,12 +26,6 @@ public class DefenceFlat implements Defence {
 	}
 
 	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int defence(int degat, Combattant defenceur) {
 		if (degat - flat < 0) {
 			return 0;

@@ -28,12 +28,6 @@ public class AbsorbeDefence implements Defence {
 	}
 
 	@Override
-	public void information() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int defence(int degat, Combattant defenceur) {
 
 		defenceur.soigner((int) (degat * coefHeal));

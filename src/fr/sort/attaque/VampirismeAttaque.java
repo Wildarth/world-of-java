@@ -11,11 +11,8 @@ public class VampirismeAttaque implements Attaque {
 	private double chanceToucher;
 	private int degat;
 	private double coefHeal = 0;
-	
-	
+
 	private Random random = new Random();
-	
-	
 
 	public VampirismeAttaque(String nom, String description, double chanceToucher, int degat, double coefHeal) {
 		super();
@@ -24,11 +21,6 @@ public class VampirismeAttaque implements Attaque {
 		this.chanceToucher = chanceToucher;
 		this.degat = degat;
 		this.coefHeal = coefHeal;
-	}
-
-	@Override
-	public void information() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -74,7 +66,7 @@ public class VampirismeAttaque implements Attaque {
 
 	@Override
 	public int lancerAttaque(Combattant lanceur, Combattant cible) {
-		if((random.nextDouble() * 100) < this.getChanceToucher()) {
+		if ((random.nextDouble() * 100) < this.getChanceToucher()) {
 			lanceur.soigner((int) (getDegat() * coefHeal));
 			return this.getDegat();
 		} else {
